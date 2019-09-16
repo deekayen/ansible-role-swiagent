@@ -1,0 +1,63 @@
+---
+
+- debug:
+    var: orion_hosts
+    verbosity: 3
+
+- name: Set at least one orion host for the mirrorlist.
+  assert:
+    that:
+      - orion_host is defined
+      - orion_host | join("") | length > 6
+    fail_msg: "The orion_host variable must be set with at least one hostname."
+    success_msg: "Hostname found."
+  tags:
+    - always
+
+- block:
+    - name: Upload mirrorlist template for RedHat.
+      template:
+        src: mirrorlist.j2
+        dest: /etc/yum.repos.d/swiagent-rhel-5.mirrors
+        mode: 0644
+        owner: root
+        group: root
+
+    - name: Setup Orion repository for RedHat.
+      yum_repository:
+        name: swiagent
+        description: SolarWinds Agent
+        mirrorlist: file:///etc/yum.repos.d/swiagent-rhel-5.mirrors
+        enabled: yes
+        gpgcheck: no
+  when:
+    - ansible_os_family is defined
+    - ansible_os_family == "RedHat"
+
+- name: Install perl to support monitoring extensions.
+  package:
+    name: perl
+    state: present
+  register: perl_install
+  until: perl_install.rc == 0
+  retries: 2
+  delay: 2
+
+- debug:
+    var: perl_install
+    verbosity: 3
+
+- name: Install Solarwinds Agent.
+  package:
+    name: swiagent
+    state: present
+  register: swiagent_install
+  retries: 2
+  delay: 2
+  until: swiagent_install.rc == 0
+  notify:
+    - start swiagentd
+
+- debug:
+    var: swiagent_install
+    verbosity: 3

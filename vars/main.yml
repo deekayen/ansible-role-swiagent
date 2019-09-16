@@ -1,0 +1,3 @@
+---
+
+orion_rhel_repo_path: "Orion/AgentManagement/LinuxPackageRepository.ashx?path=/dists/rhel-5/$basearch"

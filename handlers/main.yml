@@ -1,0 +1,7 @@
+---
+
+- name: start swiagentd
+  service:
+    name: swiagentd
+    state: started
+    enabled: yes

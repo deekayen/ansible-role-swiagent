@@ -1,0 +1,5 @@
+{{ ansible_managed | comment }}
+
+{% for host in orion_hosts %}
+{{ host }}/{{ orion_rhel_repo_path }}
+{% endfor %}

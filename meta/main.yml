@@ -1,0 +1,22 @@
+galaxy_info:
+  role_name: swiagent
+  author: David Norman
+  description: Install the Solarwinds Agent from Orion.
+
+  issue_tracker_url: https://github.com/deekayen/ansible-role-swiagent/issues
+
+  license: BSD-3-Clause
+
+  min_ansible_version: 2.7
+
+  platforms:
+    - name: EL
+      versions:
+        - 7
+
+  galaxy_tags:
+    - solarwinds
+    - orion
+    - monitoring
+
+dependencies: []
