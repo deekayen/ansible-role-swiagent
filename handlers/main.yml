@@ -1,11 +1,5 @@
 ---
 
-- name: start swiagentd
-  service:
-    name: swiagentd
-    state: started
-    enabled: yes
-
 - name: init swiagentd
   command: "service swiagentd init iniFile='{{ swiagentd_ini_file }}'"
   tags:
@@ -17,3 +11,9 @@
     owner: swiagent
     group: swiagent
     recurse: true
+
+- name: start swiagentd
+  service:
+    name: swiagentd
+    state: started
+    enabled: yes
