@@ -14,6 +14,26 @@
   tags:
     - always
 
+- name: Define a poller for agent target hostname.
+  assert:
+    that:
+      - swiagent_target is defined
+      - swiagent_target | trim | length > 1
+    fail_msg: "The swiagent_target variable must be defined for the agent to report to."
+    success_msg: "Agent target hostname found."
+  tags:
+    - always
+
+- name: Define a poller for agent target IP address.
+  assert:
+    that:
+      - swiagent_ipaddress is defined
+      - swiagent_ipaddress | trim | length > 1
+    fail_msg: "The swiagent_ipaddress variable must be defined for the agent to report to."
+    success_msg: "Agent target IP found."
+  tags:
+    - always
+
 - block:
     - name: Upload mirrorlist template for RedHat.
       template:
