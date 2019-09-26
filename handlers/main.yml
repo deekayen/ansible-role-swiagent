@@ -5,3 +5,15 @@
     name: swiagentd
     state: started
     enabled: yes
+
+- name: init swiagentd
+  command: "service swiagentd init iniFile='{{ swiagentd_ini_file }}'"
+  tags:
+  - skip_ansible_lint
+
+- name: verify path ownership
+  file:
+    path: "{{ swiagent_install_path }}"
+    owner: swiagent
+    group: swiagent
+    recurse: true

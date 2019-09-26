@@ -7,9 +7,9 @@
 - name: Set at least one orion host for the mirrorlist.
   assert:
     that:
-      - orion_host is defined
-      - orion_host | join("") | length > 6
-    fail_msg: "The orion_host variable must be set with at least one hostname."
+      - orion_hosts is defined
+      - orion_hosts | join("") | length > 1
+    fail_msg: "The orion_hosts variable must be set with at least one hostname."
     success_msg: "Hostname found."
   tags:
     - always
@@ -76,6 +76,8 @@
   delay: 2
   until: swiagent_install.rc == 0
   notify:
+    - init swiagentd
+    - verify path ownership
     - start swiagentd
 
 - debug:
