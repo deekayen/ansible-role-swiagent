@@ -1,7 +1,11 @@
 ---
 
 - name: init swiagentd
-  command: "service swiagentd init iniFile='{{ swiagentd_ini_file }}'"
+  command: "service swiagentd init \
+            iniFile='{{ swiagentd_ini_file }}' \
+            -recreateCert \
+            -provision_passive \
+            -is_active"
   tags:
   - skip_ansible_lint
 
