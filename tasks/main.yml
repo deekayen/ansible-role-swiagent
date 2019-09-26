@@ -67,6 +67,11 @@
     var: perl_install
     verbosity: 3
 
+- name: Copy agent configuration ini template.
+  template:
+    src: SolarWindsAgent.ini.j2
+    dest: "{{ swiagentd_ini_file }}"
+
 - name: Install Solarwinds Agent.
   package:
     name: swiagent
