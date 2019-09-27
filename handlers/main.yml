@@ -6,7 +6,6 @@
             -recreateCert \
             -provision_passive \
             -is_active"
-  warn: false
   tags:
   - skip_ansible_lint
 
