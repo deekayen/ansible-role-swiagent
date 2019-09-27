@@ -1,3 +1,0 @@
----
-- src: git+https://github.com/deekayen/ansible-role-swiagent.git
-  name: deekayen.swiagent

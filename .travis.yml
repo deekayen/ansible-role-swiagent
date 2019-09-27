@@ -10,7 +10,7 @@ env:
 
 install:
   - if [ "${ANSIBLE_VERSION}" = "latest" ]; then pip3 install -U ansible; else pip3 install -U ansible==${ANSIBLE_VERSION}; fi
-  - ansible-galaxy install --force -r tests/requirements.yml
+  - ansible-galaxy install --force git+https://github.com/deekayen/ansible-role-swiagent.git,${TRAVIS_COMMIT}
   - pip install ansible-lint
   - pip install ansible-review
 
