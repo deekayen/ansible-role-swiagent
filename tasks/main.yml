@@ -71,6 +71,7 @@
   template:
     src: SolarWindsAgent.ini.j2
     dest: "{{ swiagentd_ini_file }}"
+    mode: 0644
 
 - name: Install Solarwinds Agent.
   package:
