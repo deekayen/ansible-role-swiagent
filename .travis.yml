@@ -4,23 +4,20 @@ language: python
 cache: pip
 
 env:
-  - ANSIBLE_VERSION=2.7.13
-  - ANSIBLE_VERSION=2.8.5
+  - ANSIBLE_VERSION=2.8.15
+  - ANSIBLE_VERSION=2.9.13
   - ANSIBLE_VERSION=latest
 
 install:
   - if [ "${ANSIBLE_VERSION}" = "latest" ]; then pip3 install -U ansible; else pip3 install -U ansible==${ANSIBLE_VERSION}; fi
   - ansible-galaxy install --force git+https://github.com/deekayen/ansible-role-swiagent.git,${TRAVIS_COMMIT}
   - pip install ansible-lint
-  - pip install ansible-review
 
 script:
   - ansible --version
   - ansible-lint --version
-  - ansible-review --version
   - ansible-galaxy --version
   - ansible-lint -v .
-  - git ls-files | grep -Ei '^[^[:punct:]].+.(yaml|yml)$' | xargs ansible-review -q
   - ansible-playbook tests/test.yml -i tests/inventory --syntax-check -e 'ansible_python_interpreter=/usr/bin/python3'
 
 notifications:
