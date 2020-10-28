@@ -3,6 +3,7 @@ galaxy_info:
   author: David Norman
   description: Install the Solarwinds Agent from Orion.
 
+  github_branch: main
   issue_tracker_url: https://github.com/deekayen/ansible-role-swiagent/issues
 
   license: BSD-3-Clause
