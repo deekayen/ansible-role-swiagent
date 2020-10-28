@@ -1,7 +1,7 @@
 Solarwinds Agent
 =========
 
-[![Build Status](https://travis-ci.org/deekayen/ansible-role-swiagent.svg?branch=master)](https://travis-ci.org/deekayen/ansible-role-swiagent)
+[![Build Status](https://travis-ci.org/deekayen/ansible-role-swiagent.svg?branch=main)](https://travis-ci.org/deekayen/ansible-role-swiagent)
 
 Install the Solarwinds Agent from Orion to communicate outbound to a Solarwinds poller.
 
