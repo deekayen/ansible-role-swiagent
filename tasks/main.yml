@@ -1,6 +1,7 @@
 ---
 
-- debug:
+- name: "Debug: list configured Orion hosts."
+  debug:
     var: orion_hosts
     verbosity: 3
 
@@ -63,7 +64,8 @@
   retries: 2
   delay: 2
 
-- debug:
+- name: "Debug: Results from installing perl."
+  debug:
     var: perl_install
     verbosity: 3
 
@@ -86,6 +88,7 @@
     - verify path ownership
     - start swiagentd
 
-- debug:
+- name: "Debug: Results from installing Solarwinds Agent."
+  debug:
     var: swiagent_install
     verbosity: 3

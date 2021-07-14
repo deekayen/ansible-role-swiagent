@@ -1,5 +1,8 @@
+---
+
 galaxy_info:
   role_name: swiagent
+  namespace: deekayen
   author: David Norman
   description: Install the Solarwinds Agent from Orion.
 
@@ -13,7 +16,6 @@ galaxy_info:
   platforms:
     - name: EL
       versions:
-        - 6
         - 7
 
   galaxy_tags:

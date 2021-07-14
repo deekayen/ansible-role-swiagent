@@ -1,7 +1,7 @@
 Solarwinds Agent
 =========
 
-[![Build Status](https://travis-ci.org/deekayen/ansible-role-swiagent.svg?branch=main)](https://travis-ci.org/deekayen/ansible-role-swiagent) [![Project Status: Unsupported – The project has reached a stable, usable state but the author(s) have ceased all work on it. A new maintainer may be desired.](https://www.repostatus.org/badges/latest/unsupported.svg)](https://www.repostatus.org/#unsupported)
+[![CI](https://github.com/deekayen/ansible-role-swiagent/actions/workflows/ci.yml/badge.svg)](https://github.com/deekayen/ansible-role-swiagent/actions/workflows/ci.yml) [![Project Status: Unsupported – The project has reached a stable, usable state but the author(s) have ceased all work on it. A new maintainer may be desired.](https://www.repostatus.org/badges/latest/unsupported.svg)](https://www.repostatus.org/#unsupported)
 
 Install the Solarwinds Agent from Orion to communicate outbound to a Solarwinds poller.
 
