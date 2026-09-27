@@ -1,23 +1,22 @@
 ---
-
-- name: init swiagentd
-  command: "service swiagentd init \
+# init is a swiagentd-specific action, not a state the service module manages.
+- name: Initialize swiagentd.
+  ansible.builtin.command: "service swiagentd init \
             iniFile='{{ swiagentd_ini_file }}' \
             -recreateCert \
             -provision_passive \
-            -is_active"
-  tags:
-  - skip_ansible_lint
+            -is_active"  # noqa: command-instead-of-module
+  changed_when: true
 
-- name: verify path ownership
-  file:
+- name: Verify path ownership.
+  ansible.builtin.file:
     path: "{{ swiagent_install_path }}"
     owner: swiagent
     group: swiagent
     recurse: true
 
-- name: start swiagentd
-  service:
+- name: Start swiagentd.
+  ansible.builtin.service:
     name: swiagentd
     state: started
-    enabled: yes
+    enabled: true

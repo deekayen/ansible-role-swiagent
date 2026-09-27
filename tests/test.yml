@@ -1,8 +1,13 @@
 ---
-- hosts: localhost
-  remote_user: root
-  connection: local
+- name: Apply the swiagent role for a syntax check.
+  hosts: localhost
+  gather_facts: false
   become: true
 
   roles:
-    - deekayen.swiagent
+    - role: deekayen.swiagent
+      vars:
+        orion_hosts:
+          - https://solarwinds.example.com
+        swiagent_target: poller.example.com
+        swiagent_ipaddress: 192.0.2.10

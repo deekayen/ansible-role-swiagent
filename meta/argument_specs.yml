@@ -1,0 +1,65 @@
+---
+argument_specs:
+  main:
+    short_description: Install the SolarWinds Agent from Orion.
+    description:
+      - Points yum at the Orion agent package repository, installs the
+        swiagent package with an agent configuration ini, and initializes
+        and starts the agent.
+    author:
+      - David Norman
+    options:
+      orion_hosts:
+        type: list
+        elements: str
+        default: []
+        description: Orion base URLs used as mirrors for the agent repository. Required.
+      swiagent_installcert:
+        type: str
+        default: "false"
+        choices: ["true", "false"]
+        description: installcert value in the agent ini.
+      swiagent_run_provision:
+        type: str
+        default: "true"
+        choices: ["true", "false"]
+        description: run_provision value in the agent ini.
+      swiagent_relative_path:
+        type: str
+        default: ini
+        description: relative_path value in the agent ini.
+      swiagent_target:
+        type: str
+        default: ""
+        description: Poller host name the agent reports to. Required.
+      swiagent_port:
+        type: str
+        default: "17778"
+        description: Poller port the agent connects to.
+      swiagent_ipaddress:
+        type: str
+        default: ""
+        description: Poller IP address the agent reports to. Required.
+      swiagent_target_device_id:
+        type: str
+        default: 00000000-0000-0000-0000-000000000000
+        description: >-
+          targetDeviceID value in the agent ini. Defaults to the older
+          swiagent_targetDeviceID variable when that is set.
+      swiagent_is_active:
+        type: str
+        default: "true"
+        choices: ["true", "false"]
+        description: is_active value in the agent ini.
+      swiagent_server_http_port:
+        type: str
+        default: "17790"
+        description: server_http_port value in the agent ini.
+      swiagent_proxy_access_type:
+        type: str
+        default: disabled
+        description: proxy_access_type value in the agent ini.
+      swiagent_install_path:
+        type: path
+        default: /opt/SolarWinds/Agent
+        description: Agent install directory whose ownership is verified.

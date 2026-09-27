@@ -1,15 +1,10 @@
 ---
-
 name: CI
 'on':
   pull_request:
   push:
     branches:
       - main
-
-defaults:
-  run:
-    working-directory: 'deekayen.swiagent'
 
 jobs:
 
@@ -18,30 +13,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the codebase.
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.
+        uses: actions/setup-python@v5
         with:
-          path: 'deekayen.swiagent'
+          python-version: '3.12'
 
       - name: Install test dependencies.
-        run: python -m pip install --user ansible ansible-lint
+        run: pip3 install ansible-lint
 
-      - name: Lint ansible.
-        run: ansible-lint
+      - name: Lint code.
+        run: ansible-lint --profile production
 
-  syntax:
-    name: Syntax check
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out the codebase.
-        uses: actions/checkout@v2
-        with:
-          path: 'deekayen.swiagent'
+      - name: Make the role resolvable by its Galaxy name.
+        run: mkdir -p .ansible/roles && ln -sfn "$PWD" .ansible/roles/deekayen.swiagent
 
-      - name: Install test dependencies.
-        run: python -m pip install --user ansible
-
-      - name: Create ansible.cfg with correct roles_path
-        run: printf '[defaults]\nroles_path=../' >ansible.cfg
-
-      - name: Check syntax.
-        run: ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+      - name: Syntax check.
+        run: ansible-playbook --syntax-check tests/test.yml -i tests/inventory
+        env:
+          ANSIBLE_ROLES_PATH: .ansible/roles:~/.ansible/roles

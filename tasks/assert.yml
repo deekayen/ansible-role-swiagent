@@ -1,0 +1,30 @@
+---
+- name: Set at least one orion host for the mirrorlist.
+  ansible.builtin.assert:
+    that:
+      - orion_hosts | join("") | length > 1
+      - orion_hosts | reject('match', '^https?://') | list | length == 0
+    fail_msg: "orion_hosts must list at least one Orion base URL starting with http:// or https://."
+    quiet: true
+
+- name: Define a poller for agent target hostname.
+  ansible.builtin.assert:
+    that:
+      - swiagent_target | trim | length > 1
+    fail_msg: "The swiagent_target variable must be defined for the agent to report to."
+    quiet: true
+
+- name: Define a poller for agent target IP address.
+  ansible.builtin.assert:
+    that:
+      - swiagent_ipaddress | trim | length > 1
+    fail_msg: "The swiagent_ipaddress variable must be defined for the agent to report to."
+    quiet: true
+
+- name: Assert the agent ports are valid TCP ports.
+  ansible.builtin.assert:
+    that:
+      - swiagent_port | int >= 1 and swiagent_port | int <= 65535
+      - swiagent_server_http_port | int >= 1 and swiagent_server_http_port | int <= 65535
+    fail_msg: swiagent_port and swiagent_server_http_port must be between 1 and 65535.
+    quiet: true

@@ -1,94 +1,67 @@
 ---
+- name: Validate role variables.
+  ansible.builtin.import_tasks: assert.yml
+  tags:
+    - always
 
 - name: "Debug: list configured Orion hosts."
-  debug:
+  ansible.builtin.debug:
     var: orion_hosts
     verbosity: 3
 
-- name: Set at least one orion host for the mirrorlist.
-  assert:
-    that:
-      - orion_hosts is defined
-      - orion_hosts | join("") | length > 1
-    fail_msg: "The orion_hosts variable must be set with at least one hostname."
-    success_msg: "Hostname found."
-  tags:
-    - always
-
-- name: Define a poller for agent target hostname.
-  assert:
-    that:
-      - swiagent_target is defined
-      - swiagent_target | trim | length > 1
-    fail_msg: "The swiagent_target variable must be defined for the agent to report to."
-    success_msg: "Agent target hostname found."
-  tags:
-    - always
-
-- name: Define a poller for agent target IP address.
-  assert:
-    that:
-      - swiagent_ipaddress is defined
-      - swiagent_ipaddress | trim | length > 1
-    fail_msg: "The swiagent_ipaddress variable must be defined for the agent to report to."
-    success_msg: "Agent target IP found."
-  tags:
-    - always
-
-- block:
+- name: Set up the Orion repository for RedHat.
+  when: ansible_facts.os_family == "RedHat"
+  block:
     - name: Upload mirrorlist template for RedHat.
-      template:
+      ansible.builtin.template:
         src: mirrorlist.j2
         dest: /etc/yum.repos.d/swiagent-rhel-5.mirrors
-        mode: 0644
+        mode: "0644"
         owner: root
         group: root
 
     - name: Setup Orion repository for RedHat.
-      yum_repository:
+      ansible.builtin.yum_repository:
         name: swiagent
         description: SolarWinds Agent
         mirrorlist: file:///etc/yum.repos.d/swiagent-rhel-5.mirrors
-        enabled: yes
-        gpgcheck: no
-  when:
-    - ansible_os_family is defined
-    - ansible_os_family == "RedHat"
+        enabled: true
+        gpgcheck: false
 
 - name: Install perl to support monitoring extensions.
-  package:
+  ansible.builtin.package:
     name: perl
     state: present
   register: perl_install
-  until: perl_install.rc == 0
+  until: perl_install is succeeded
   retries: 2
   delay: 2
 
 - name: "Debug: Results from installing perl."
-  debug:
+  ansible.builtin.debug:
     var: perl_install
     verbosity: 3
 
 - name: Copy agent configuration ini template.
-  template:
+  ansible.builtin.template:
     src: SolarWindsAgent.ini.j2
     dest: "{{ swiagentd_ini_file }}"
-    mode: 0644
+    mode: "0644"
 
 - name: Install Solarwinds Agent.
-  package:
+  ansible.builtin.package:
     name: swiagent
     state: present
   register: swiagent_install
   retries: 2
   delay: 2
-  until: swiagent_install.rc == 0
+  until: swiagent_install is succeeded
   notify:
-    - init swiagentd
-    - verify path ownership
-    - start swiagentd
+    - Initialize swiagentd.
+    - Verify path ownership.
+    - Start swiagentd.
 
 - name: "Debug: Results from installing Solarwinds Agent."
-  debug:
+  ansible.builtin.debug:
     var: swiagent_install
     verbosity: 3

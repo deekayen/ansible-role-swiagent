@@ -1,5 +1,4 @@
 ---
-
 orion_hosts: []
 
 swiagent_installcert: "false"
@@ -8,7 +7,8 @@ swiagent_relative_path: "ini"
 swiagent_target: ""
 swiagent_port: "17778"
 swiagent_ipaddress: ""
-swiagent_targetDeviceID: "00000000-0000-0000-0000-000000000000"
+# Falls back to the earlier camelCase name so existing inventories keep working.
+swiagent_target_device_id: "{{ swiagent_targetDeviceID | default('00000000-0000-0000-0000-000000000000') }}"
 swiagent_is_active: "true"
 swiagent_server_http_port: "17790"
 swiagent_proxy_access_type: "disabled"

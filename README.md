@@ -49,6 +49,10 @@ Role Variables
 orion_hosts: []
 ```
 
+`swiagent_target` and `swiagent_ipaddress` are required. See
+`meta/argument_specs.yml` for the agent ini settings; `swiagent_target_device_id`
+replaces `swiagent_targetDeviceID`, which is still honored.
+
 Dependencies
 ------------
 
